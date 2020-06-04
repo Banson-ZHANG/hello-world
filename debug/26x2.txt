@@ -1,0 +1,51 @@
+/*********************************************************************
+ * General Role Configuration
+ */
+
+// Device Name
+uint8_t attDeviceName[GAP_DEVICE_NAME_LEN]= "Simple Peripheral";
+
+//Random Address
+uint8_t * pRandomAddress = NULL;
+
+/*********************************************************************
+ * Bond Manager Configuration
+ */
+
+uint8_t pairMode                =    GAPBOND_PAIRING_MODE_WAIT_FOR_REQ;
+uint8_t mitm                    =    true;
+uint8_t ioCap                   =    GAPBOND_IO_CAP_DISPLAY_ONLY;
+uint8_t bonding                 =    true;
+uint8_t secureConnection        =    GAPBOND_SECURE_CONNECTION_ALLOW;
+uint8_t autoSyncWL              =    false;
+uint8_t eccReGenPolicy          =    0;
+uint8_t KeySize                 =    16;
+uint8_t removeLRUBond           =    false;
+uint8_t KeyDistList             =    GAPBOND_KEYDIST_MENCKEY | GAPBOND_KEYDIST_MIDKEY | GAPBOND_KEYDIST_MSIGN | GAPBOND_KEYDIST_SENCKEY | GAPBOND_KEYDIST_SIDKEY | GAPBOND_KEYDIST_SSIGN;
+uint8_t eccDebugKeys            =    false;
+
+void setBondManagerParameters()
+{
+    // Set Pairing Mode
+    GAPBondMgr_SetParameter(GAPBOND_PAIRING_MODE, sizeof(uint8_t), &pairMode);
+    // Set MITM Protection
+    GAPBondMgr_SetParameter(GAPBOND_MITM_PROTECTION, sizeof(uint8_t), &mitm);
+    // Set IO Capabilities
+    GAPBondMgr_SetParameter(GAPBOND_IO_CAPABILITIES, sizeof(uint8_t), &ioCap);
+    // Set Bonding
+    GAPBondMgr_SetParameter(GAPBOND_BONDING_ENABLED, sizeof(uint8_t), &bonding);
+    // Set Secure Connection Usage during Pairing
+    GAPBondMgr_SetParameter(GAPBOND_SECURE_CONNECTION, sizeof(uint8_t), &secureConnection);
+    // Set Auto Whitelist Sync
+    GAPBondMgr_SetParameter(GAPBOND_AUTO_SYNC_WL, sizeof(uint8_t), &autoSyncWL);
+    // Set ECC Key Regeneration Policy
+    GAPBondMgr_SetParameter(GAPBOND_ECCKEY_REGEN_POLICY, sizeof(uint8_t), &eccReGenPolicy);
+    // Set Key Size used in pairing
+    GAPBondMgr_SetParameter(GAPBOND_KEYSIZE, sizeof(uint8_t), &KeySize);
+    // Set LRU Bond Replacement Scheme
+    GAPBondMgr_SetParameter(GAPBOND_LRU_BOND_REPLACEMENT, sizeof(uint8_t), &removeLRUBond);
+    // Set Key Distribution list for pairing
+    GAPBondMgr_SetParameter(GAPBOND_KEY_DIST_LIST, sizeof(uint8_t), &KeyDistList);
+    // Set Secure Connection Debug Keys
+    GAPBondMgr_SetParameter(GAPBOND_SC_HOST_DEBUG, sizeof(uint8_t), &eccDebugKeys);
+}

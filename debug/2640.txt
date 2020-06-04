@@ -1,0 +1,37 @@
+ // Setup the GAP Bond Manager. For more information see the GAP Bond Manager
+  // section in the User's Guide:
+  // http://software-dl.ti.com/lprf/ble5stack-latest/
+  {
+    // Don't send a pairing request after connecting; the peer device must
+    // initiate pairing
+    // modify by jiangsheng.shi, will start paring when link established everytime, not here
+    uint8_t pairMode = GAPBOND_PAIRING_MODE_INITIATE;
+    // Use authenticated pairing: require passcode.
+    uint8_t mitm = TRUE;
+    // This device only has display capabilities. Therefore, it will display the
+    // passcode during pairing. However, since the default passcode is being
+    // used, there is no need to display anything.
+    uint8_t ioCap = GAPBOND_IO_CAP_DISPLAY_ONLY;
+    // Request bonding (storing long-term keys for re-encryption upon subsequent
+    // connections without repairing)
+    uint8_t bonding = TRUE;
+    uint8_t autoSyncWhiteList = TRUE;
+    uint8_t bondFailAction = GAPBOND_FAIL_TERMINATE_LINK;
+    uint8_t bondReplaceMent = TRUE;
+
+#ifdef INGEEK_ENABLE_POC
+    pairMode = GAPBOND_PAIRING_MODE_NO_PAIRING;
+    bondFailAction = GAPBOND_FAIL_NO_ACTION;
+    bonding = FALSE;
+#endif // INGEEK_ENABLE_POC
+
+    GAPBondMgr_SetParameter(GAPBOND_PAIRING_MODE, sizeof(uint8_t), &pairMode);
+    GAPBondMgr_SetParameter(GAPBOND_MITM_PROTECTION, sizeof(uint8_t), &mitm);
+    GAPBondMgr_SetParameter(GAPBOND_IO_CAPABILITIES, sizeof(uint8_t), &ioCap);
+    GAPBondMgr_SetParameter(GAPBOND_BONDING_ENABLED, sizeof(uint8_t), &bonding);
+
+    GAPBondMgr_SetParameter(GAPBOND_AUTO_SYNC_WL, sizeof(uint8_t), &autoSyncWhiteList);
+    GAPBondMgr_SetParameter(GAPBOND_BOND_FAIL_ACTION, sizeof(uint8_t), &bondFailAction);
+    GAPBondMgr_SetParameter(GAPBOND_LRU_BOND_REPLACEMENT,sizeof(uint8_t), &bondReplaceMent);
+  }
+#endif
